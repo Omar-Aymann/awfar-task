@@ -62,7 +62,6 @@ export const updateTask = async (taskId: string, updatedData: Partial<Task>): Pr
 };
 
 // Delete a task
-export const deleteTask = async (taskId: string): Promise<{tasks: Task, message: string}> => {
-  const response: AxiosResponse<{tasks: Task, message: string}> =  await api.delete(`/tasks/${taskId}`);
-  return response.data;
-};
+export const deleteTask = async (taskId: string): Promise<void> => {
+  const response: AxiosResponse =  await api.delete(`/tasks/${taskId}`);
+  return response.data;};

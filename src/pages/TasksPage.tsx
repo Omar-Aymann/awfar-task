@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { List, Input, Button, Form, Spin } from 'antd';
+import { List, Input, Button, Form, Spin, message } from 'antd';
 import TaskItem from '../components/TaskItem';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {createTask, fetchTasks, updateTask, deleteTask as dropTask} from '../utils/tasks.ts';
@@ -20,6 +20,7 @@ const TasksPage: React.FC = () => {
   {
     onSuccess: (data : Array<Task>) => {
         queryClient.setQueryData('tasks', data);
+        message.success('task created')
       
       setNewTask('');
     }
@@ -39,8 +40,9 @@ const TasksPage: React.FC = () => {
      return dropTask(taskId);
   },
   {
-    onSuccess: (data : {tasks: Task[], message: string}) => {
-        queryClient.setQueryData('tasks', data.tasks);
+    onSuccess: () => {
+        queryClient.invalidateQueries('tasks');
+        message.success('task deleted');
     }, 
     onMutate: (id: string) => {
         setDeletedTask(id);
@@ -83,7 +85,7 @@ const TasksPage: React.FC = () => {
           />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={addTaskMutation.isLoading}>
             Add Task
           </Button>
         </Form.Item>
@@ -91,11 +93,11 @@ const TasksPage: React.FC = () => {
 
       {/* Task List */}
       <div className='flex items-center justify-center py-3'>
-        {(addTaskMutation.isLoading || isLoading) && <Spin size="large" />}
       </div>
       <List
         bordered
         dataSource={tasks}
+        loading={isLoading}
         renderItem={(task) => (
           <TaskItem
             task={task}
