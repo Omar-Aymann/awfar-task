@@ -1,12 +1,12 @@
-import { useState } from 'react'
-import './App.css'
+import React from 'react';
+import AppRoutes from './router/AppRoutes';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
-function App() {
+const App: React.FC = () => {
+  const queryClient = new QueryClient();
+  return <QueryClientProvider client={queryClient}>
+       <AppRoutes />;
+  </QueryClientProvider>
+};
 
-  return (
-    <>
-    </>
-  )
-}
-
-export default App
+export default App;
