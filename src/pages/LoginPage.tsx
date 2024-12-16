@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { useMutation } from 'react-query';
-import axios, { AxiosError } from 'axios';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface LoginFormValues {
   email: string;
@@ -72,6 +72,7 @@ const LoginPage: React.FC = () => {
           </Button>
         </Form.Item>
       </Form>
+      <Link to='/register'>Create Account</Link>
     </div>
   );
 };
